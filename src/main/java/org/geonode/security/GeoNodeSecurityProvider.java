@@ -8,6 +8,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 
 import org.geoserver.config.GeoServerDataDirectory;
 import org.geoserver.platform.GeoServerExtensions;
+//import org.geoserver.platform.GeoServerResourceLoader;
 import org.geoserver.security.GeoServerSecurityFilterChain;
 import org.geoserver.security.GeoServerSecurityManager;
 import org.geoserver.security.GeoServerSecurityProvider;
@@ -15,7 +16,6 @@ import org.geoserver.security.config.SecurityManagerConfig;
 import org.geoserver.security.config.SecurityNamedServiceConfig;
 import org.geoserver.security.validation.SecurityConfigException;
 import org.geotools.util.logging.Logging;
-import org.vfny.geoserver.global.GeoserverDataDirectory;
 
 public class GeoNodeSecurityProvider extends GeoServerSecurityProvider implements GeoNodeSecurityClient.Provider {
 
@@ -82,8 +82,9 @@ public class GeoNodeSecurityProvider extends GeoServerSecurityProvider implement
     }
     
     private static File geonodeCookie() throws IOException {
-    	GeoServerDataDirectory directory = GeoserverDataDirectory.accessor();
-    	File geonodeDir = directory.findOrCreateDir("geonode");
+        //GeoServerDataDirectory directory = new GeoServerDataDirectory(GeoServerExtensions.bean(GeoServerResourceLoader.class));
+        GeoServerDataDirectory directory = GeoServerExtensions.bean(GeoServerDataDirectory.class);
+        File geonodeDir = directory.findOrCreateDir("geonode");
     	return new File(geonodeDir, "geonode_initialized");
     }
     
